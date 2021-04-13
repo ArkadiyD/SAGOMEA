@@ -140,3 +140,4 @@ __pycache__/
 *.fuse_*
 *.png
 *.o
+*.pkl
