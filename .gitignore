@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.o
+*pyc
 
 # Distribution / packaging
 .Python
@@ -134,3 +136,4 @@ SAGOMEA
 test/
 *.ipynb
 *.ipynb*/
+__pycache__/
