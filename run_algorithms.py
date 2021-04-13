@@ -174,6 +174,15 @@ def run_LS(function, problem, L, alphabetSizes, cur_folder, randomSeed, instance
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
 		'--hillClimber=3'])
 
+def run_SAGOMEA(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
+	functionName = function.__class__.__name__
+	print(functionName)
+	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
+		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
+		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
+		'--hillClimber=0', 
+		'--SurrogateModelClass=surrogateModelSVR', '--delta=0.999'])
+
 def run_SAGOMEA_SVR_0999(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
 	print(functionName)
@@ -273,6 +282,9 @@ def run_algorithm(cur_args):
 		algorithmRunner = run_TPE
 	elif cur_args.algorithm == 'COMBO': #COMBO optimizer
 		algorithmRunner = run_COMBO
+	elif cur_args.algorithm == 'SAGOMEA': #SAGOMEA-P3 with SVR surrogate model, eta=0.999
+		algorithmRunner = run_SAGOMEA
+
 	
 	elif cur_args.algorithm == 'SAGOMEA_SVR0999': #SAGOMEA-P3 with SVR surrogate model, eta=0.999
 		algorithmRunner = run_SAGOMEA_SVR_0999
@@ -333,9 +345,9 @@ def runInParallel(algorithms, problems, dims):
 			run_algorithm(args_tuple)
 
 
-dims={'Ensembling5':[250]}
+dims={'Ensembling5':[100]}
 
-algorithms=['GOMEA','LS','SAGOMEA_SVR0999']
+algorithms=['SAGOMEA']
 
 
 for problem in list(dims.keys()):
