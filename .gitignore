@@ -137,3 +137,4 @@ test/
 *.ipynb
 *.ipynb*/
 __pycache__/
+*.fuse_*
