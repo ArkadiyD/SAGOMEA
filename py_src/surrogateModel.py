@@ -343,9 +343,7 @@ class surrogateModel:
 		try:
 			solution = np.array(solution).astype(np.int8).reshape(1,-1)
 			prediction = self.predictRegressor(self.regressor, solution)
-			#print('model prediction', prediction, prediction.shape, np.mean(prediction), np.min(prediction), np.max(prediction))
 			prediction = np.mean(prediction)
-			#print(prediction, self.range, self.min)
 			prediction = prediction * self.range + self.min
 		except Exception as e:
 			print(e)

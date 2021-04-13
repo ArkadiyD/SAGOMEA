@@ -335,7 +335,7 @@ def runInParallel(algorithms, problems, dims):
 
 dims={'Ensembling5':[250]}
 
-algorithms=['GOMEA','LS']
+algorithms=['GOMEA','LS','SAGOMEA_SVR0999']
 
 
 for problem in list(dims.keys()):

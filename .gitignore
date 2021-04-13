@@ -141,3 +141,4 @@ __pycache__/
 *.png
 *.o
 *.pkl
+.Trash*/
