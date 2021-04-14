@@ -16,7 +16,6 @@ struct sharedInformation
 
 	Individual elitist;
 	double surrogateElitistFitness, minSurrogateFitness;
-	solutionsArchive *evaluatedSolutions;
 	bool firstEvaluationEver;
 	bool surrogateModelTrained;
 	double percentileThreshold;
@@ -27,12 +26,11 @@ struct sharedInformation
 	
 	unordered_set<vector<char >, hashVector > solutionsWithRealEvaluations;
 
-	sharedInformation(int maxArchiveSize)
+	sharedInformation()
 	{
 		numberOfEvaluations = 0;
 		startTimeMilliseconds = getCurrentTimeStampInMilliSeconds();
 		firstEvaluationEver = true;
-		evaluatedSolutions = new solutionsArchive(maxArchiveSize);
 		pyramid = new Pyramid();
 		surrogateModelTrained = false;
 		surrogateElitistFitness = -1e+308;
@@ -41,7 +39,6 @@ struct sharedInformation
 
 	~sharedInformation()
 	{
-		delete evaluatedSolutions;
 		delete pyramid;
 	}
 };

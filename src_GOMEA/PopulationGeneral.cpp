@@ -218,30 +218,15 @@ void PopulationGeneral::evaluateSolution(Individual *solution)
 {  
   checkTimeLimit();
 
-  archiveRecord searchResult;
-  
-  if (config->saveEvaluations)
-    sharedInformationPointer->evaluatedSolutions->checkAlreadyEvaluated(solution->genotype, &searchResult);
-  
-  if (searchResult.isFound)
+  problemInstance->calculateFitness(solution);
+  sharedInformationPointer->numberOfEvaluations = problemInstance->getEvals();
+
+  updateElitistAndCheckVTR(solution);
+
+  if (sharedInformationPointer->numberOfEvaluations >= config->maxEvaluations)
   {
-    solution->fitness = searchResult.value;
-  }
-  else
-  {
-    problemInstance->calculateFitness(solution);
-    sharedInformationPointer->numberOfEvaluations = problemInstance->getEvals();
-
-    if (config->saveEvaluations)
-      sharedInformationPointer->evaluatedSolutions->insertSolution(solution->genotype, solution->fitness);
-
-    updateElitistAndCheckVTR(solution);
-
-    if (sharedInformationPointer->numberOfEvaluations >= config->maxEvaluations)
-    {
-      cout << "Max evals limit reached! Terminating...\n";
-      throw customException("max evals");
-    }
+    cout << "Max evals limit reached! Terminating...\n";
+    throw customException("max evals");
   }
 }
 

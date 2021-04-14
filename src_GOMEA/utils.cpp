@@ -42,25 +42,6 @@ void writeElitistSolutionToFile(string &folder, long long numberOfEvaluations, l
 	outFile.close();
 }
 
-void solutionsArchive::checkAlreadyEvaluated(vector<char> &genotype, archiveRecord *result)
-{
-	result->isFound = false;
-
-	unordered_map<vector<char>, double, hashVector >::iterator it = archive.find(genotype);
-	if (it != archive.end())
-	{
-		result->isFound = true;
-		result->value = it->second;
- 	}
-}
-
-void solutionsArchive::insertSolution(vector<char> &genotype, double fitness)
-{
-	if (archive.size() >= maxArchiveSize)
-		return;
-	archive.insert(pair<vector<char>, double> (genotype, fitness));
-}
-
 Pyramid::~Pyramid()
 {
 	for (int i = 0; i < levels.size(); ++i)

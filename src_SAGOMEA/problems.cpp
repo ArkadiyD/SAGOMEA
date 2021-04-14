@@ -10,10 +10,8 @@ void PythonFunction::initializeProblem(Config *config, int numberOfVariables_)
 {
   numberOfVariables = numberOfVariables_;
   string pwd = filesystem::current_path().string();
-  cout << "current_path: " << pwd << endl;
   char moduleName[1000];
   sprintf(moduleName, "import sys; sys.path.insert(0, \"%s/py_src\")", pwd.c_str());  
-  cout << moduleName << endl;
   PyRun_SimpleString(moduleName);
   //PyRun_SimpleString ("import sys; print (sys.path)");
 

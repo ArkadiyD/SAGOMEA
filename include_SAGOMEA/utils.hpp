@@ -28,11 +28,6 @@ public:
     }
 };
 
-struct archiveRecord
-{
-  bool isFound = false;
-  double value = 0.0;
-};
 
 struct hashVector
 { 
@@ -59,15 +54,6 @@ struct hash_int_vector
     } 
 }; 
 
-class solutionsArchive
-{
-	int maxArchiveSize;
-public:
-	solutionsArchive(int maxArchiveSize_): maxArchiveSize(maxArchiveSize_){};
-	unordered_map<vector<char>, double, hashVector > archive;
-	void checkAlreadyEvaluated(vector<char> &genotype, archiveRecord *result);
-	void insertSolution(vector<char> &genotype, double fitness);
-};
 
 class Pyramid
 {

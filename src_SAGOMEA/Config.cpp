@@ -26,7 +26,6 @@ bool Config::parseCommandLine(int argc, char **argv)
   {
 	{"help",        no_argument,         0, 'h'},    
   {"FI",          no_argument,         0, 'f'},
-  {"saveEvals",   no_argument,         0, 's'},  
   {"donorSearch", no_argument,         0, 'd'},    
   {"tournamentSelection", no_argument, 0, 't'}, 
   {"maxEvals",    required_argument,   0, 'E'},  
@@ -42,22 +41,19 @@ bool Config::parseCommandLine(int argc, char **argv)
   {"similarityMeasure", required_argument,   0, 'Z'}, 
   {"functionName", required_argument,   0, 'N'}, 
   {"SurrogateModelClass", required_argument,   0, 'W'},              
-  {"delta", required_argument,   0, 'Y'},              
+  {"eta", required_argument,   0, 'Y'},              
 
     {0,             0,                   0,  0 }
   };
 
 
   int c, index;
-  while ((c = getopt_long(argc, argv, "h::f::s::d::t::E::H::L::S::A::I::V::T::O::B::Z::N::W::Y::", longopts, &index)) != -1)
+  while ((c = getopt_long(argc, argv, "h::f::d::t::E::H::L::S::A::I::V::T::O::B::Z::N::W::Y::", longopts, &index)) != -1)
   {
   	switch (c)
 	{
 		case 'f':
 			useForcedImprovements = 1;
-			break;
-		case 's':
-			saveEvaluations = 1;
 			break;
 		case 'h':
 			printHelp = 1;
@@ -108,7 +104,7 @@ bool Config::parseCommandLine(int argc, char **argv)
 			SurrogateModelClass = string(optarg);
 			break;
 		case 'Y':
-			delta = atof(optarg);
+			eta = atof(optarg);
 			break;
 
 		default:
@@ -141,60 +137,58 @@ bool Config::parseCommandLine(int argc, char **argv)
 
 void Config::printUsage()
 {
-  cout << "Usage: GOMEA [-h] [-p] [-v] [-w] [-s] [-h] [-P] [-L] [-F] [-T] [-S]\n";
-  cout << "   -h: Prints out this usage information.\n";
-  cout << "   -f: Whether to use Forced Improvements.\n";
-  cout << "   -p: Whether to use partial evaluations\n";
-  cout << "   -w: Enables writing FOS contents to file\n";
-  cout << "   -s: Enables saving all evaluations in archive\n";
-  cout << endl;
-  cout << "    P: Index of optimization problem to be solved (maximization). Default: 0\n";
-  cout << "    L: Number of variables. Default: 1\n";
-  cout << "    A: Alphabet size. Default: 2 (binary optimization)\n";  
-  cout << "    C: GOM type. Default: 0 (LT). 1 - conditionalGOM with MI, 2 - conditionalGOM with predefined VIG\n";
-  cout << "    O: Folder where GOMEA runs. Default: \"test\"\n";
-  cout << "    T: timeLimit in seconds. Default: 1\n";
-  cout << "    S: random seed. Default: 42\n";
+  cout << "Usage: SAGOMEA --functionName= --instance= --L= --alphabet= --folder= --timeLimit= --maxEvals= --seed= --SurrogateModelClass= [--eta=]";
+  cout << "   --functionName: Fitness function name. It should be specified in the py_src/fitnessFunctions.py file.\n";
+  cout << "   --instance: An optional problem instance name (passed to the fitness function constructor).\n";
+  cout << "   --L: Problem size.\n";
+  cout << "   --alphabet: Problem alphabet. A number K means an alphabet with all variables of cardinality K. A string means an alphabet is read from a corresponding file.\n";
+  cout << "   --folder: The folder in which all results are saved.\n";
+  cout << "   --timeLimit: Runtime time limit in seconds.\n";
+  cout << "   --maxEvals: Maximum allowed number of fitness evaluations.\n";
+  cout << "   --seed: Random seed.\n";
+  cout << "   --SurrogateModelClass: surrogate model class name. It should be defined in the py_src/surrogateModel.py file.\n";
+  cout << "   --eta: eta hyperparameter. The default value is 0.999.";
 }
 
 
 void Config::printOverview()
 {
-  cout << "### Settings ######################################\n";
-  cout << "#\n";
-  cout << "# Use Forced Improvements : " << (useForcedImprovements ? "enabled" : "disabled")  << endl;
-  cout << "# Save all evaluations : " << (saveEvaluations ? "enabled" : "disabled") << endl;
-
-  if (hillClimber == 0)
-	  cout << "# use hill climber : " << "disabled" << endl;
-  else if (hillClimber == 1)
-	  cout << "# use hill climber : " << "single" << endl;
-  else if (hillClimber == 2)
-	  cout << "# use hill climber : " << "multiple" << endl;
-  else if (hillClimber == 3)
-	  cout << "# use hill climber : " << "Local Search" << endl;
-
-  cout << "# use exhaustive donor search : " << (donorSearch ? "enabled" : "disabled") << endl;
-  cout << "# use tournament selection : " << (tournamentSelection ? "enabled" : "disabled") << endl;
-  cout << "# similarity measure : " << (similarityMeasure ? "normalized MI" : "MI") << endl;
-  cout << "# FOS ordering : " << (orderFOS ? "ascending" : "random") << endl;
-  
-  cout << "#\n";
   cout << "###################################################\n";
   cout << "#\n";
   cout << "# Problem                      = " << problemName << " " << functionName << endl;
   cout << "# Problem Instance Filename    = " << problemInstancePath << endl;
   cout << "# Number of variables          = " << numberOfVariables << endl;
-  cout << "# Alphabet size                = ";
+  cout << "# Alphabet sizes               = ";
   for (int i = 0; i < numberOfVariables; ++i)
   	cout << alphabetSize[i] << " ";
   cout << endl;
   cout << "# Time Limit (seconds)         = " << timelimitSeconds << endl;
   cout << "# #Evals Limit                 = " << maxEvaluations << endl;
-  cout << "# VTR                          = " << ((vtr < 1e+308) ? to_string(vtr) : "not set") << endl;
+  cout << "# Value To Reach               = " << ((vtr < 1e+308) ? to_string(vtr) : "not set") << endl;
   cout << "# Random seed                  = " << randomSeed << endl;
   cout << "# Folder                       = " << folder << endl;
   cout << "#\n";
-  cout << "### Settings ######################################\n";
+  cout << "### Search Settings ######################################\n";
+  cout << "#\n";
+  cout << "# Surrogate Model Type : " << SurrogateModelClass << endl;
+  cout << "# Eta : " << eta << endl;
+  cout << "# Use Forced Improvements : " << (useForcedImprovements ? "enabled" : "disabled")  << endl;
+
+  if (hillClimber == 0)
+    cout << "# use hill climber : " << "disabled" << endl;
+  else if (hillClimber == 1)
+    cout << "# use hill climber : " << "single" << endl;
+  else if (hillClimber == 2)
+    cout << "# use hill climber : " << "multiple restart" << endl;
+  else if (hillClimber == 3)
+    cout << "# use hill climber : " << "Local Search" << endl;
+
+  cout << "# use exhaustive donor search : " << (donorSearch ? "enabled" : "disabled") << endl;
+  cout << "# use tournament selection : " << (tournamentSelection ? "enabled" : "disabled") << endl;
+  cout << "# similarity measure : " << (similarityMeasure ? "normalized MI" : "MI") << endl;
+  cout << "# FOS ordering : " << (orderFOS ? "ascending" : "random") << endl;
+  cout << "###################################################\n";
+  cout << "#\n";
+
 }
 

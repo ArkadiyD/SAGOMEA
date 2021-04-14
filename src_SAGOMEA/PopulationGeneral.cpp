@@ -61,10 +61,10 @@ PopulationGeneral::PopulationGeneral(Config *config_, Problem *problemInstance_,
 
       population[i] = new Individual(config->numberOfVariables, config->alphabetSize);
       population[i]->randomInit(&config->rng);
-      cout << "evaluating random solution!\n";
+      //cout << "evaluating random solution!\n";
       evaluateSolution(population[i]);
 
-      cout << "starting hill climbing...\n";
+      //cout << "starting hill climbing...\n";
       if (config->hillClimber == 1)
         hillClimberSingle(population[i]);
       else if (config->hillClimber == 2)
@@ -75,7 +75,7 @@ PopulationGeneral::PopulationGeneral(Config *config_, Problem *problemInstance_,
       offspringPopulation[i] = new Individual(config->numberOfVariables, config->alphabetSize);
       *offspringPopulation[i] = *population[i];      
     }
-    cout << "finished hill climbing...\n";
+    //cout << "finished hill climbing...\n";
 
     createFOSInstance(&FOSInstance, config->numberOfVariables, config->alphabetSize, config->similarityMeasure);
 }
@@ -283,8 +283,6 @@ void PopulationGeneral::evaluateSolution(Individual *solution, int doSurrogateEv
   solution->fitness = -1e+308;
   solution->surrogateFitness = -1e+308;
     
-  archiveRecord searchResult;
-  
   if (sharedInformationPointer->surrogateModelTrained)
   {
     evaluateSolutionSurrogateModel(solution);
@@ -313,30 +311,18 @@ void PopulationGeneral::evaluateSolution(Individual *solution, int doSurrogateEv
 
   problemInstance->calculateFitness(solution);
   
-  if (config->saveEvaluations)
-    sharedInformationPointer->evaluatedSolutions->checkAlreadyEvaluated(solution->genotype, &searchResult);
-  
   solution->realFitnessCalculated = true;
+ 
+  sharedInformationPointer->numberOfEvaluations = problemInstance->getEvals();
 
-  if (config->saveEvaluations && searchResult.isFound)
+  updateElitistAndCheckVTR(solution);
+
+  if (sharedInformationPointer->numberOfEvaluations >= config->maxEvaluations)
   {
-    solution->fitness = searchResult.value;
+    cout << "Max evals limit reached! Terminating...\n";
+    throw customException("max evals");
   }
-  else
-  {
-    sharedInformationPointer->numberOfEvaluations = problemInstance->getEvals();
-
-    if (config->saveEvaluations)
-      sharedInformationPointer->evaluatedSolutions->insertSolution(solution->genotype, solution->fitness);
-
-    updateElitistAndCheckVTR(solution);
-
-    if (sharedInformationPointer->numberOfEvaluations >= config->maxEvaluations)
-    {
-      cout << "Max evals limit reached! Terminating...\n";
-      throw customException("max evals");
-    }
-  }
+  
 }
 
 void PopulationGeneral::checkTimeLimit()

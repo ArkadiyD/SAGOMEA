@@ -163,12 +163,10 @@ def run_GOMEA(function, problem, L, alphabetSizes, cur_folder, randomSeed, insta
 	functionName = function.__class__.__name__
 	subprocess.call(['./GOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
-		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0'])
+		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed])
 
 def run_LS(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./GOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
@@ -176,84 +174,67 @@ def run_LS(function, problem, L, alphabetSizes, cur_folder, randomSeed, instance
 
 def run_SAGOMEA(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelSVR', '--delta=0.999'])
+		'--SurrogateModelClass=surrogateModelSVR', '--eta=0.999'])
 
 def run_SAGOMEA_SVR_0999(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelSVR', '--delta=0.999'])
+		'--SurrogateModelClass=surrogateModelSVR', '--eta=0.999'])
 
 def run_SAGOMEA_SVR_099(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelSVR', '--delta=0.99'])
+		'--SurrogateModelClass=surrogateModelSVR', '--eta=0.99'])
 
 def run_SAGOMEA_RF_0999(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
 		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelRF', '--delta=0.999'])
+		'--SurrogateModelClass=surrogateModelRF', '--eta=0.999'])
 
 def run_SAGOMEA_RF_099(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelRF', '--delta=0.99'])
+		'--SurrogateModelClass=surrogateModelRF', '--eta=0.99'])
 
 def run_SAGOMEA_Catboost_0999(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelCatboost', '--delta=0.999'])
+		'--SurrogateModelClass=surrogateModelCatboost', '--eta=0.999'])
 
 def run_SAGOMEA_Catboost_099(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelCatboost', '--delta=0.99'])
+		'--SurrogateModelClass=surrogateModelCatboost', '--eta=0.99'])
 
 def run_SAGOMEA_NeuralNet_0999(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelNeuralNet', '--delta=0.999'])
+		'--SurrogateModelClass=surrogateModelNeuralNet', '--eta=0.999'])
 
 def run_SAGOMEA_NeuralNet_099(function, problem, L, alphabetSizes, cur_folder, randomSeed, instanceFile=''):
 	functionName = function.__class__.__name__
-	print(functionName)
 	subprocess.call(['./SAGOMEA', '--L=%d'%L, '--timeLimit=%d'%args.timeLimit, '--maxEvals=%d'%args.evalsLimit, 
 		'--functionName=%s'%functionName, '--instance=%s'%function.filename, '--alphabet=%s'%alphabetSizes,
 		'--folder=%s'%cur_folder, '--seed=%d'%randomSeed,
-		'--hillClimber=0', 
-		'--SurrogateModelClass=surrogateModelNeuralNet', '--delta=0.99'])
+		'--SurrogateModelClass=surrogateModelNeuralNet', '--eta=0.99'])
 
 import multiprocessing
 from multiprocessing import Pool, Process
@@ -345,11 +326,10 @@ def runInParallel(algorithms, problems, dims):
 			run_algorithm(args_tuple)
 
 
-dims={'Ensembling5':[100]}
+problems={'Ensembling2':[100]}
+algorithms=['SAGOMEA','LS','GOMEA']
 
-algorithms=['SAGOMEA']
 
-
-for problem in list(dims.keys()):
+for problem in list(problems.keys()):
 	print(problem)
-	runInParallel(algorithms, [problem], dims[problem])
+	runInParallel(algorithms, [problem], problems[problem])

@@ -29,11 +29,11 @@ def alphabetToList(alphabet, numberOfVariables):
 
 class surrogateModel:
 	def __init__(self, cur_folder, L, alphabet, randomSeed=42, args={}):
-		print(cur_folder, L, alphabet, randomSeed, args)
+		#print(cur_folder, L, alphabet, randomSeed, args)
 		
 		self.numberOfVariables = L
 		self.alphabet = alphabetToList(alphabet, L)
-		print('alphabet', self.alphabet)
+		#print('alphabet', self.alphabet)
 		self.folder = cur_folder
 		self.randomSeed = randomSeed
 		np.random.seed(randomSeed)
@@ -67,7 +67,7 @@ class surrogateModel:
 		X = np.array(X)
 		y = np.array(y)
 		data = np.hstack([X, y.reshape(-1,1)])
-		print('loaded data shape', data.shape)
+		#print('loaded data shape', data.shape)
 		
 		self.data['X'] = data[:,:-1]
 		self.data['y'] = data[:,-1]
@@ -78,9 +78,9 @@ class surrogateModel:
 		self.data['y'] -= self.min
 		if self.range != 0:
 			self.data['y'] /= self.range
-		print('mean', np.min(self.data['y']), 'std', np.max(self.data['y']))
+		#print('mean', np.min(self.data['y']), 'std', np.max(self.data['y']))
 
-		print('obtained data for training:', self.data['X'].shape, np.min(self.data['y']), np.max(self.data['y']))
+		#print('obtained data for training:', self.data['X'].shape, np.min(self.data['y']), np.max(self.data['y']))
 		
 		return(self.data['X'], self.data['y'])
 
@@ -101,7 +101,7 @@ class surrogateModel:
 			return data
 	
 	def fitRegressor(self, model, X, y):
-		print('fitting regressor... ', model, X.shape, y.shape)
+		#print('fitting regressor... ', model, X.shape, y.shape)
 		if isinstance(model, NeuralNet):
 			ind = np.random.permutation(X.shape[0])
 			ind_train = ind[:int(ind.shape[0]*0.9)]
@@ -122,7 +122,7 @@ class surrogateModel:
 		elif isinstance(model, CatBoostRegressor):
 
 			model = CatBoostRegressor()
-			print(self.cur_params)
+			#print(self.cur_params)
 			model.set_params(**self.cur_params)
 
 			ind = np.random.permutation(X.shape[0])
@@ -143,7 +143,7 @@ class surrogateModel:
 			encoded_train_X = self.transformData(X)
 
 			try:
-				print(self.cur_params)
+				#print(self.cur_params)
 				model = None
 				num_trees=self.cur_params['num_trees']
 				do_bootstrapping = True
@@ -191,7 +191,7 @@ class surrogateModel:
 				encoded_train_X = self.transformData(X)
 			except Exception as e:
 				print(e)
-			print(encoded_train_X.shape, y.shape)
+			#print(encoded_train_X.shape, y.shape)
 			model.fit(encoded_train_X, y)
 			return model
 		#except Exception as e:
@@ -199,7 +199,7 @@ class surrogateModel:
 
 	def predictRegressor(self, model, X):
 		encoded_X = self.transformData(X)
-		print('predict',X.shape, encoded_X.shape, model)
+		#print('predict',X.shape, encoded_X.shape, model)
 		if isinstance(model, NeuralNet):
 			return model.predict(encoded_X)
 		elif isinstance(model, CatBoostRegressor):
@@ -220,7 +220,7 @@ class surrogateModel:
 					print(e)
 				preds.append(pred)
 			preds = np.array(preds)
-			print(preds)
+			#print(preds)
 			return preds
 		else:
 			return model.predict(encoded_X)
@@ -246,16 +246,16 @@ class surrogateModel:
 		return score
 
 	def tuneModelRegression(self, model, data_X, data_y):
-		print('tuning regresion surrogate model ', model)
+		#print('tuning regresion surrogate model ', model)
 		start = time.process_time()
 		#try:
 		if self.tuneCnt >= 1:
-			print('tuning not needed!')
+			#print('tuning not needed!')
 			if not isinstance(model, CatBoostRegressor):
 				return model, 0
 			else:
 				model = CatBoostRegressor()
-				print(self.best_params)
+				#print(self.best_params)
 				model.set_params(**self.best_params)
 				return model, 0
 		
@@ -283,7 +283,7 @@ class surrogateModel:
 			keys, values = zip(*params.items())
 			best_params = None
 			best_score = -1e+308
-			print(product(*values))
+			#print(product(*values))
 			for bundle in product(*values):
 				cur_params = dict(zip(keys, bundle))
 				cur_model = deepcopy(model)
@@ -293,7 +293,7 @@ class surrogateModel:
 
 				if len(list(product(*values))) > 1:
 					score = self.crossValidationRegression(cur_model, data_X, data_y)
-					print(cur_params, best_params, 'score', score, 'best score so far:', best_score)
+					#print(cur_params, best_params, 'score', score, 'best score so far:', best_score)
 					if score > best_score:
 						best_score = score
 						best_params = copy(cur_params)
@@ -307,15 +307,15 @@ class surrogateModel:
 				model.set_params(**best_params)
 		except Exception as e:
 			print(e)
-		print('best params=', best_params, 'best R^2=', best_score)
+		print('best params=', best_params)#, 'best R^2=', best_score)
 		#self.tunedModel = True
-		print('tuning surrogate model finished!')
-		print('tuning time', time.process_time()-start)
-		print('tuned model', model)
+		#print('tuning surrogate model finished!')
+		#print('tuning time', time.process_time()-start)
+		#print('tuned model', model)
 		if isinstance(model, CatBoostRegressor):
 			model = CatBoostRegressor()
 			model.set_params(**self.best_params)
-		print(model)
+		#print(model)
 		return model, best_score
 
 	def trainModel(self):
@@ -328,7 +328,8 @@ class surrogateModel:
 			print('Data error! exiting model Training!...')
 			return -1e+308, -1e+308
 
-		print(self.data['X'].shape[0], self.trainSize, 'fitting regressor')
+		print('fitting regressor on ', self.data['X'].shape[0], ' samples')
+
 		if self.data['X'].shape[0] > self.trainSize:
 			self.cv_split = KFold(n_splits=self.n_splits, random_state=42, shuffle=True)	
 			self.regressor,_ = self.tuneModelRegression(self.regressor, self.data['X'], self.data['y'])
@@ -351,9 +352,9 @@ class surrogateModel:
 
 	def updateModel(self):
 		
-		print ('updating surrogate')
+		#print ('updating surrogate')
 		self.trainModel()
-		print ('updating model finished!')
+		#print ('updating model finished!')
 
 #################################################################################
 

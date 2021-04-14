@@ -15,7 +15,7 @@ gomeaP3::gomeaP3(Config *config_): GOMEA(config_)
   
   createProblemInstance(config->numberOfVariables, config, &problemInstance, config->problemInstancePath);
   
-  sharedInformationInstance = new sharedInformation(config->maxArchiveSize);
+  sharedInformationInstance = new sharedInformation();
   
   initializePythonFunctions();
 }
@@ -26,8 +26,7 @@ void gomeaP3::initializePythonFunctions()
   char moduleName[1000];
   sprintf(moduleName, "import sys; sys.path.insert(0, \"%s/py_src\")", pwd.c_str());  
   PyRun_SimpleString(moduleName);
-  PyRun_SimpleString ("import sys; print (sys.path)");
-
+  
   PyObject* module = PyImport_ImportModule("surrogateModel");
   if (module == NULL) {cout << "SurrogateModels module import failed!\n";}
 
@@ -74,7 +73,7 @@ void gomeaP3::run()
     if (newElitistFitness > elitistFitness)
       config->currentDelta = 1.0;
     else
-      config->currentDelta *= config->delta;
+      config->currentDelta *= config->eta;
     
   }
 }

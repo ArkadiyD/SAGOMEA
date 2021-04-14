@@ -137,7 +137,7 @@ class Ensembling(DummyFitnessFunction):
 	'''
 
 	def __init__(self, folder, filename, numberOfVariables, alphabet):
-		print(folder, filename, numberOfVariables, alphabet)
+		#print(folder, filename, numberOfVariables, alphabet)
 		self.logger = Logger(folder) 
 		self.numberOfVariables = int(numberOfVariables)		
 		self.alphabet = alphabetToList(alphabet, numberOfVariables)
@@ -146,7 +146,6 @@ class Ensembling(DummyFitnessFunction):
 
 		task = openml.tasks.get_task(int(filename))  
 		X, y = task.get_X_and_y()
-		print(X.shape,y.shape)
 		np.random.seed(42)
 
 		ind = np.random.permutation(np.arange(len(X)))		
@@ -166,7 +165,7 @@ class Ensembling(DummyFitnessFunction):
 		self.val_data[0] = scaler.transform(self.val_data[0])
 		self.test_data[0] = scaler.transform(self.test_data[0])
 		
-		print(len(X), len(val_test_ind), len(self.train_data), len(self.val_data), len(self.test_data))
+		#print(len(X), len(val_test_ind), len(self.train_data), len(self.val_data), len(self.test_data))
 		
 
 	def fitness(self, x):
@@ -234,7 +233,7 @@ class Ensembling(DummyFitnessFunction):
 			score = accuracy_score(self.val_data[1], ensemble)
 			
 			test_score = accuracy_score(self.test_data[1], ensemble_test)
-			print(score, test_score)
+			#print(score, test_score)
 			
 			self.logger.write(xStr_normed, score)			
 			self.logger.writeForTraining(xStr, score)
@@ -315,7 +314,7 @@ class EnsemblingNoisy(Ensembling):
 			
 			score = accuracy_score(self.val_data[1], ensemble)
 			test_score = accuracy_score(self.test_data[1], ensemble_test)
-			print(score, test_score)
+			#print(score, test_score)
 			
 			self.logger.write(xStr, score)			
 			self.logger.writeForTraining(xStr, score)

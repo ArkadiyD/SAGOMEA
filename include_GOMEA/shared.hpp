@@ -15,7 +15,6 @@ struct sharedInformation
 	       elitistSolutionHittingTimeEvaluations;
 
 	Individual elitist;
-	solutionsArchive *evaluatedSolutions;
 	bool firstEvaluationEver;
 	double percentileThreshold;
 	Pyramid *pyramid;
@@ -25,14 +24,11 @@ struct sharedInformation
 		numberOfEvaluations = 0;
 		startTimeMilliseconds = getCurrentTimeStampInMilliSeconds();
 		firstEvaluationEver = true;
-		evaluatedSolutions = new solutionsArchive(maxArchiveSize);
 		pyramid = new Pyramid();
-		//all_graphs.resize(1);
 	}
 
 	~sharedInformation()
 	{
-		delete evaluatedSolutions;
 		delete pyramid;
 	}
 };

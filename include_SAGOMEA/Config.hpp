@@ -20,18 +20,17 @@ class Config
 	bool isNumber(const string &s);
 
 public:
-	int saveEvaluations                    = 0,
-	    useForcedImprovements              = 0,
-   		printHelp                          = 0;
+	int printHelp = 0;
 
-   	double delta=0.95;
-	double currentDelta=1.0;
+   	double eta = 0.999;
+	double currentDelta = 1.0;
 	string SurrogateModelClass;
    	double vtr = 1e+308;
 	size_t 
 	    orderFOS = 1,
 	    numberOfVariables = 1;
-	int similarityMeasure = 1;
+	int similarityMeasure = 1,
+		useForcedImprovements = 0;
 
 	string folder = "test";
 	string problemName,
@@ -43,12 +42,10 @@ public:
 	
 	string alphabet;
 	vector<int> alphabetSize;
-	int maxArchiveSize = 1000000;
 	int maximumNumberOfGOMEAs  = 100,
 		populationSize = 1, 
-	    maxGenerations = 200,
-	    maxGenerationsWithoutImprovement = 10;
-	int hillClimber = 1,
+	    maxGenerations = 200;
+	int hillClimber = 0,
 	    donorSearch = 1,
 	    tournamentSelection = 0;
     long long maxEvaluations = 1e+12;
