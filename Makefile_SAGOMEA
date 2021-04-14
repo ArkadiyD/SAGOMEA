@@ -1,10 +1,9 @@
 CPP := g++
 
 # Folders
-SRC_DIR := src_GOMEA_SA
-INC_DIR := include_GOMEA_SA
-BUILD_DIR := build_GOMEA_SA
-TARGET_DIR := bin_GOMEA_SA
+SRC_DIR := src_SAGOMEA
+INC_DIR := include_SAGOMEA
+BUILD_DIR := build_SAGOMEA
 
 TARGET := SAGOMEA
 

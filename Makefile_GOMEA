@@ -4,7 +4,6 @@ CPP := g++
 SRC_DIR := src_GOMEA
 INC_DIR := include_GOMEA
 BUILD_DIR := build_GOMEA
-TARGET_DIR := bin_GOMEA
 
 TARGET := GOMEA
 
