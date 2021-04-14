@@ -165,23 +165,7 @@ void LTFOS::learnFOS(vector<Individual*> &population, vector<vector<int> > *VIG,
         size_t r0 = NN_chain[NN_chain_length-2];
         size_t r1 = NN_chain[NN_chain_length-1];
         if (S_Matrix[NN_chain[NN_chain_length-1]][NN_chain[NN_chain_length-2]] >= 1-(1e-6))
-        {
-            // for (int j = 0; j < mpm[r0].size(); ++j)
-            //     cout << mpm[r0][j] << " ";
-            // cout << "1:"<<endl;
-
-            // for (int j = 0; j < mpm[r1].size(); ++j)
-            //     cout << mpm[r1][j] << " ";
-            // cout << "2:"<<endl;
-            // cout << endl;
-            // cout << mpmFOSMap[r0] << " " <<FOSStructure[mpmFOSMap[r0]].size() << endl;
-            // for (int j = 0; j < FOSStructure[mpmFOSMap[r0]].size(); ++j)
-            //     cout << FOSStructure[mpmFOSMap[r0]][j] << " ";
-            // cout << endl;
-            // for (int j = 0; j < FOSStructure[mpmFOSMap[r1]].size(); ++j)
-            //     cout << FOSStructure[mpmFOSMap[r1]][j] << " ";
-            // cout << endl;
-            
+        {         
             useFOSElement[mpmFOSMap[r0]] = false;
             useFOSElement[mpmFOSMap[r1]] = false;            
         }
@@ -270,50 +254,27 @@ void LTFOS::learnFOS(vector<Individual*> &population, vector<vector<int> > *VIG,
             if (mpm.size() == 1)
                 done = true;
         }
-  }
+   }
 
-  if (filtered)
-  {
-    for (int i = 0; i < useFOSElement.size(); ++i)
+    if (filtered)
     {
-        if (!useFOSElement[i])
+        for (int i = 0; i < useFOSElement.size(); ++i)
         {
-            // cout << "filtered out:\n";
-            // for (int j = 0 ; j < FOSStructure[i].size(); ++j)
-            //     cout << FOSStructure[i][j] << " ";
-            // cout << endl;
-            FOSStructure[i].clear();
-        }
-        else
-        {
-            // for (int j = 0 ; j < FOSStructure[i].size(); ++j)
-            //     cout << FOSStructure[i][j] << " ";
-            // cout << endl;
-            
+            if (!useFOSElement[i])
+            {
+                FOSStructure[i].clear();
+            }        
         }
     }
-  }
 
-  int size = FOSStructure.size();
+    int size = FOSStructure.size();
 
-  for (int i = 0; i < size; ++i)
-  {
-    if (FOSStructure[i].size()==0)
-        continue;
-}
-  //   double sum = 0;
-  //   for (int j =0; j < FOSStructure[i].size(); ++j)
-  //   {
-  //       sum += alphabetSize[FOSStructure[i][j]];
-  //   }
-  //   sum /= FOSStructure[i].size();
-  //   sum /= 2;
-  //   int repeats = floor(sum);
+    for (int i = 0; i < size; ++i)
+    {
+        if (FOSStructure[i].size()==0)
+            continue;
+    }
 
-  //   cout << sum << " " << "repeat:" << repeats << endl;
-  //   for (int j = 0; j < repeats; ++j)
-  //       FOSStructure.push_back(FOSStructure[i]);
-  // }
 }
 
 /**
@@ -391,12 +352,6 @@ void LTFOS::computeMIMatrix(vector<Individual*> &population)
         }
     }
 
-    // for (int i = 0; i < numberOfVariables; ++i)
-    // {
-    //  for (int j = 0; j < numberOfVariables; ++j)
-    //      cout << MI_Matrix[i][j] << " ";
-    //  cout << endl;
-    // }
 }
 
 void LTFOS::computeNMIMatrix(vector<Individual*> &population)
@@ -457,13 +412,6 @@ void LTFOS::computeNMIMatrix(vector<Individual*> &population)
 
     }
 
-    /* Then transform into mutual information matrix MI(X,Y)=H(X)+H(Y)-H(X,Y) */
-    // for (int i = 0; i < numberOfVariables; ++i)
-    // {
-    //  for (int j = 0; j < numberOfVariables; ++j)
-    //      cout << MI_Matrix[i][j] << " ";
-    //  cout << endl;
-    // }
 }
 
 /**

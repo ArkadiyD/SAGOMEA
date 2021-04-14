@@ -23,10 +23,8 @@ gomeaP3::gomeaP3(Config *config_): GOMEA(config_)
 void gomeaP3::initializePythonFunctions()
 {
   string pwd = filesystem::current_path().string();
-  cout << "current_path: " << pwd << endl;
   char moduleName[1000];
   sprintf(moduleName, "import sys; sys.path.insert(0, \"%s/py_src\")", pwd.c_str());  
-  cout << moduleName << endl;
   PyRun_SimpleString(moduleName);
   PyRun_SimpleString ("import sys; print (sys.path)");
 
@@ -78,10 +76,6 @@ void gomeaP3::run()
     else
       config->currentDelta *= config->delta;
     
-    //config->currentDelta = config->delta;
-
-    cout << "NEW DELTA:" << config->currentDelta;
-
   }
 }
 

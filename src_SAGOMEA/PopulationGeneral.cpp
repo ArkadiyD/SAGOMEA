@@ -33,13 +33,12 @@ PopulationGeneral::PopulationGeneral(Config *config_, Problem *problemInstance_,
 
     if (sharedInformationPointer->solutionsWithRealEvaluations.size() >= 10)
     {
-      cout << "re-building Tree\n";
+      cout << "re-training surrogate Model\n";
       trainSurrogateModel();
       //exit(0);
-      cout << "re-building Tree Finished!\n";
+      cout << "surrogate Model updated!\n";
     }
 
-    cout << "Re-evaluating existing solutions\n";
     sharedInformationPointer->surrogateElitistFitness = -1e+308;
     sharedInformationPointer->minSurrogateFitness = 1e+308;
     sharedInformationPointer->surrogateFitnesses.clear();
@@ -55,24 +54,7 @@ PopulationGeneral::PopulationGeneral(Config *config_, Problem *problemInstance_,
     }    
 
     setThreshold();
-    cout << "sharedInformationPointer->minSurrogateFitness: " << sharedInformationPointer->minSurrogateFitness << endl;
-    cout << "sharedInformationPointer->surrogateElitistFitness: " << sharedInformationPointer->surrogateElitistFitness << endl;
-
-    // for (int i = 0; i < sharedInformationPointer->pyramid->levels.size(); ++i)
-    // {
-    //   for (int j = 0; j < sharedInformationPointer->pyramid->levels[i].size(); ++j)
-    //     evaluateSolution(sharedInformationPointer->pyramid->levels[i][j]);
-    // }
-
-    for (int i = 0; i < sharedInformationPointer->pyramid->levels.size(); ++i)
-    {
-      cout << "level:" << i << endl; 
-      for (int j = 0; j < sharedInformationPointer->pyramid->levels[i].size(); ++j)
-      {
-        cout << *sharedInformationPointer->pyramid->levels[i][j] << endl;
-      }
-    }
-
+    
     for (size_t i = 0; i < populationSize; ++i)
     {
       noImprovementStretches[i] = 0;
@@ -101,12 +83,6 @@ PopulationGeneral::PopulationGeneral(Config *config_, Problem *problemInstance_,
 void PopulationGeneral::setThreshold()
 {
   sort(sharedInformationPointer->surrogateFitnesses.begin(), sharedInformationPointer->surrogateFitnesses.end());
-  // for (int j = 0; j < sharedInformationPointer->surrogateFitnesses.size(); ++j)
-  //   cout << sharedInformationPointer->surrogateFitnesses[j] << " ";
-
-  // sharedInformationPointer->minSurrogateFitness = sharedInformationPointer->surrogateFitnesses[0];
-  // sharedInformationPointer->surrogateElitistFitness = sharedInformationPointer->surrogateFitnesses[sharedInformationPointer->surrogateFitnesses.size()-1];
-  // sharedInformationPointer->percentileThreshold = config->currentDelta*(sharedInformationPointer->surrogateElitistFitness);
   
   int toSelect = int(config->currentDelta*sharedInformationPointer->surrogateFitnesses.size());   
   if (sharedInformationPointer->surrogateFitnesses.size()==0)
@@ -120,8 +96,6 @@ void PopulationGeneral::setThreshold()
   
   evaluateSolutionSurrogateModel(&sharedInformationPointer->elitist);
   sharedInformationPointer->percentileThreshold = config->currentDelta*(sharedInformationPointer->elitist.surrogateFitness);
-
-  cout << "Threshold:" << sharedInformationPointer->percentileThreshold;
 }
 
 void PopulationGeneral::calculateAverageFitness()
@@ -151,10 +125,6 @@ void PopulationGeneral::tournamentSelection(int k, vector<Individual*> &populati
       indices[populationSize*i + j] = j;
 
     shuffle(indices.begin() + populationSize*i, indices.begin() + populationSize*(i+1), config->rng);
-    // for (int i = 0; i < indices.size(); ++i)
-    //   cout <<indices[i] << " ";
-    // cout << endl;
-
   }
   for (int i = 0; i < populationSize; i++)
   {
@@ -337,10 +307,8 @@ void PopulationGeneral::evaluateSolution(Individual *solution, int doSurrogateEv
   {
     evaluateSolution(solution,2);
     sharedInformationPointer->surrogateFitnesses.push_back(solution->surrogateFitness);
-    //setThreshold();
   }
 
-  cout << "doing real evalaution!" << endl;
   sharedInformationPointer->solutionsWithRealEvaluations.insert(solution->genotype);
 
   problemInstance->calculateFitness(solution);
@@ -368,8 +336,6 @@ void PopulationGeneral::evaluateSolution(Individual *solution, int doSurrogateEv
       cout << "Max evals limit reached! Terminating...\n";
       throw customException("max evals");
     }
-
-    //trainSurrogateModel();
   }
 }
 

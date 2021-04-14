@@ -70,8 +70,6 @@ void PopulationP3::generateOffspring()
         }    
       }
 
-    //if(!(offspringPopulation[i]->fitness > population[i]->fitness))
-    
     if (compareSolutions(offspringPopulation[i], population[i]) != 1)
       noImprovementStretches[i]++;
     else
@@ -106,7 +104,6 @@ bool PopulationP3::GOM(size_t offspringIndex, Individual *backup)
     while (donorEqualToOffspring && indicesTried < donorIndices.size())
     {
       int j = config->rng() % (donorIndices.size() - indicesTried);
-      //cout << "rand ind:" << j << " " << indicesTried+j << " " << donorIndices.size() << endl;
       swap(donorIndices[indicesTried], donorIndices[indicesTried + j]);
       donorIndex = donorIndices[indicesTried];
       indicesTried++;
@@ -125,8 +122,6 @@ bool PopulationP3::GOM(size_t offspringIndex, Individual *backup)
           donorEqualToOffspring = false;      
       }
 
-      //cout << "donorEqualToOffspring: " << donorEqualToOffspring << endl;
-
       if (!donorEqualToOffspring)
       {
         evaluateSolution(offspringPopulation[offspringIndex]);
@@ -134,8 +129,6 @@ bool PopulationP3::GOM(size_t offspringIndex, Individual *backup)
         // accept the change if this solution is not the elitist and the fitness is at least equally good (allows random walk in neutral fitness landscape)
         // however, if this is the elitist solution, only accept strict improvements, to avoid convergence problems
         
-        //if ((!thisIsTheElitistSolution && (offspringPopulation[offspringIndex]->fitness >= backup->fitness)) || 
-        //    (thisIsTheElitistSolution && (offspringPopulation[offspringIndex]->fitness > backup->fitness)))   
         if ((!thisIsTheElitistSolution && compareSolutions(offspringPopulation[offspringIndex], backup) >= 0) || 
           (thisIsTheElitistSolution && compareSolutions(offspringPopulation[offspringIndex], backup) == 1))         
         {       

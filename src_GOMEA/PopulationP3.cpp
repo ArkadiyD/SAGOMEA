@@ -105,7 +105,6 @@ bool PopulationP3::GOM(size_t offspringIndex, Individual *backup)
     while (donorEqualToOffspring && indicesTried < donorIndices.size())
     {
       int j = config->rng() % (donorIndices.size() - indicesTried);
-      //cout << "rand ind:" << j << " " << indicesTried+j << " " << donorIndices.size() << endl;
       swap(donorIndices[indicesTried], donorIndices[indicesTried + j]);
       donorIndex = donorIndices[indicesTried];
       indicesTried++;
@@ -123,8 +122,6 @@ bool PopulationP3::GOM(size_t offspringIndex, Individual *backup)
         if (backup->genotype[variableFromFOS] != offspringPopulation[offspringIndex]->genotype[variableFromFOS])
           donorEqualToOffspring = false;      
       }
-
-      //cout << "donorEqualToOffspring: " << donorEqualToOffspring << endl;
 
       if (!donorEqualToOffspring)
       {

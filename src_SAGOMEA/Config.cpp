@@ -25,12 +25,12 @@ bool Config::parseCommandLine(int argc, char **argv)
   const struct option longopts[] =
   {
 	{"help",        no_argument,         0, 'h'},    
-    {"FI",          no_argument,         0, 'f'},
-    {"saveEvals",   no_argument,         0, 's'},  
-    {"donorSearch", no_argument,         0, 'd'},    
-    {"tournamentSelection", no_argument, 0, 't'}, 
-    {"maxEvals",    required_argument,   0, 'E'},  
-    {"hillClimber", required_argument,   0, 'H'},    
+  {"FI",          no_argument,         0, 'f'},
+  {"saveEvals",   no_argument,         0, 's'},  
+  {"donorSearch", no_argument,         0, 'd'},    
+  {"tournamentSelection", no_argument, 0, 't'}, 
+  {"maxEvals",    required_argument,   0, 'E'},  
+  {"hillClimber", required_argument,   0, 'H'},    
 	{"L",           required_argument,   0, 'L'},  
 	{"seed",        required_argument,   0, 'S'},
 	{"alphabet",    required_argument,   0, 'A'},
@@ -38,11 +38,11 @@ bool Config::parseCommandLine(int argc, char **argv)
 	{"vtr",         required_argument,   0, 'V'},
 	{"timeLimit",   required_argument,   0, 'T'},
 	{"folder",      required_argument,   0, 'O'},
-    {"orderFOS",    required_argument,   0, 'B'}, 
-    {"similarityMeasure", required_argument,   0, 'Z'}, 
-    {"functionName", required_argument,   0, 'N'}, 
-    {"SurrogateModelClass", required_argument,   0, 'W'},              
-    {"delta", required_argument,   0, 'Y'},              
+  {"orderFOS",    required_argument,   0, 'B'}, 
+  {"similarityMeasure", required_argument,   0, 'Z'}, 
+  {"functionName", required_argument,   0, 'N'}, 
+  {"SurrogateModelClass", required_argument,   0, 'W'},              
+  {"delta", required_argument,   0, 'Y'},              
 
     {0,             0,                   0,  0 }
   };
