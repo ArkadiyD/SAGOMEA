@@ -1,5 +1,5 @@
 **SAGOMEA** is an efficient surrogate-assisted Evolutionary Algorithm for combinatorial (discrete) optimization problems with expensive fitness functions.
-The paper: 
+The paper (preprint): https://arxiv.org/abs/2104.08048
 
 In this repository you can also find implementations of non-surrogate search algorithms, such as GOMEA, Local Search (LS), and Random Search (RS). 
 
